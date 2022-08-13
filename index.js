@@ -3,8 +3,11 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const ejs = require('ejs');
+const axios = require('axios').default;
+const getApi = require('./getApi.js');
 
-const api = require('./api/api.json');
+// Arquivo Local
+// const api = require('./api/api.json');
 
 const sitePort = 2000;
 
@@ -28,7 +31,8 @@ app.set('views', path.resolve(__dirname, "public/html"));
 
 
 app.get('/', async (req, res) => {
-    res.render('index', { api: api });
+    let apiDados = await getApi.getData();
+    res.render('index', { api: apiDados });
 });
 
 app.listen(sitePort, () => console.info(`Rodando: http://127.0.0.1:${sitePort}/`));
